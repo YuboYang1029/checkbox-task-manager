@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import fastifyPostgres from "@fastify/postgres";
 import fastifyCors from "@fastify/cors";
 import * as dotenv from "dotenv";
+import { taskRoutes } from "./routes/tasks";
 
 dotenv.config();
 
@@ -33,6 +34,9 @@ const checkDbConnection = async () => {
     process.exit(1);
   }
 };
+
+// Register the task routes
+fastify.register(taskRoutes);
 
 const start = async () => {
   try {

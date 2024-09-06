@@ -1,0 +1,5 @@
+# Dockerfile for PostgreSQL
+FROM postgres:latest
+
+# Copy the initialization script into the container
+COPY init_tasks_table.sql /docker-entrypoint-initdb.d/
