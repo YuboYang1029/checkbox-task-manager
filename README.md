@@ -126,6 +126,7 @@ To address the risk of handling 10s of 1000s of tasks, the following optimizatio
 - **Pagination**: Only a configured limited number of tasks are loaded per page per request, reducing the load on the backend and frontend.
 - **Task Status Data Integrity**: One of the key concerns is ensuring data integrity for task status, as the status is dynamically calculated based on the difference between the current date and the task’s due date. The status (Not Urgent, Due Soon, Overdue) will change over time, making it necessary to recheck and update these statuses periodically. If we calculate the status dynamically on fetch for every request, this could lead to performance issues, especially when handling large datasets or when returning all tasks in a single request.
   - **Proposed Solution: Scheduled Updates**: We can set up a scheduled job (e.g., a cron job or background task) to check and update task statuses on a regular basis (e.g., daily). This can be done using a database trigger or a dedicated service that updates the status column based on the current date and the task's due date.
+- **Caching**: To handle a large volume of tasks, a caching layer (e.g., Redis) can be implemented for frequently accessed data, such as task lists with common search queries (e.g., urgent tasks or keyword-based searches). This would reduce the load on the database and significantly improve response times for these frequently requested queries.
 
 <br>
 
