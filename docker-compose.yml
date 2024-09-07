@@ -8,6 +8,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app
+      - /app/node_modules
 
   backend:
     build:
@@ -24,6 +25,7 @@ services:
       POSTGRES_DB: task-db
     volumes:
       - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
 
   db:
     build:
