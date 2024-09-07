@@ -2,6 +2,8 @@
 
 This project delivers a task management application based on the customer interviews and user mapping flows. The task manager allows users to create, edit, view, sort and search tasks efficiently. The system is designed to scale efficiently, allowing it to handle a large number of tasks without compromising performance.
 
+<br>
+
 ## Features
 
 ### Implemented User Stories:
@@ -14,6 +16,7 @@ This project delivers a task management application based on the customer interv
   - Due date (asce/desc)
 - **Task Search**: Users can search tasks based on their name, providing a customised way to filter tasks.
 
+<br>
 
 ## Running the Project
 
@@ -32,15 +35,26 @@ This project delivers a task management application based on the customer interv
    ```bash
    npm run docker:up
    ```
+
+3. **Access the Application**:
+   - You can start to visit the React App: `http://localhost:3000`
+   - The backend (Fastify API server) is also available: `http://localhost:8080`
+
+4. **Access the pgAdmin**:
+   - you can visit `http://localhost:5050/browser/` to manage the Postgres database. Login creds can be found at `docker-compose.yml`. Database Server Connection details as follows:
+     - Host: `db`
+     - Port: `5432`
+     - db: `task-db`
+     - Username: `postgres`
+     - Password: `password`
+
    
-3. **Shut Down**: To stop and remove all running containers, use the following command:
+6. **Shut Down**: To stop and remove all running containers, use the following command:
    ```bash
    npm run docker:down
    ```
 
-4. **Access the Application**:
-   - You can start to visit the React App: `http://localhost:3000`
-   - The backend (Fastify API server) is also available: `http://localhost:8080`
+<br>
 
 ## Installing Dependencies Locally (without Docker)
 
@@ -57,12 +71,16 @@ Although the application is fully containerized for easy setup, you may want to 
    npm install
    ```
 
+<br>
+
 ## Technology Stack
 
 - **Frontend**: React, TypeScript
 - **Backend**: Fastify, TypeScript, Postgres
 - **Database**: Postgres
 - **Containerization**: Docker
+
+<br>
 
 ## Design Decisions
 
@@ -84,21 +102,23 @@ Although the application is fully containerized for easy setup, you may want to 
 - Component **TaskList** manages task listing, sorting, searching, and pagination, ensuring the UI can handle large datasets without compromising user experience.
 - Component **TaskItem** displays individual task details, with dynamic styling to indicate task status (Not urgent, Due soon, Overdue).
 
+<br>
 
 ## Approach to the "Should Have" Features (Sorting and Search)
 
-### Default Sorting (Created Date - Descending):
+**Default Sorting (Created Date - Descending)**:
 
 - When the application loads, tasks are sorted by the created date in descending order by default, ensuring that the newly created tasks are always shown at the top.
 - The user can update the sorting options (e.g., by due date, ascending/descending), which will re-trigger the tasks fetch from the backend.
 - Sorting is handled via query parameters in the API request, and the backend dynamically adjusts the PostgreSQL query to return tasks in the specified order.
 
-### Default Search Term (Empty String):
+**Default Search Term (Empty String)**:
 
 - By default, the search term is set to an empty string, meaning no search filter is applied when loading the task list initially.
 - The backend ignores the name ILIKE clause in the SQL query when the search term is an empty string.
 - If a valid search term is provided by the user, the backend adds the name ILIKE clause to filter tasks based on the provided term, ensuring efficient querying by only applying the search when necessary.
 
+<br>
 
 ## Risk and Scalability Considerations
 
@@ -107,6 +127,7 @@ To address the risk of handling 10s of 1000s of tasks, the following optimizatio
 - **Task Status Data Integrity**: One of the key concerns is ensuring data integrity for task status, as the status is dynamically calculated based on the difference between the current date and the task’s due date. The status (Not Urgent, Due Soon, Overdue) will change over time, making it necessary to recheck and update these statuses periodically. If we calculate the status dynamically on fetch for every request, this could lead to performance issues, especially when handling large datasets or when returning all tasks in a single request.
   - **Proposed Solution: Scheduled Updates**: We can set up a scheduled job (e.g., a cron job or background task) to check and update task statuses on a regular basis (e.g., daily). This can be done using a database trigger or a dedicated service that updates the status column based on the current date and the task's due date.
 
+<br>
 
 ## Future Improvements
 
@@ -129,6 +150,7 @@ To address the risk of handling 10s of 1000s of tasks, the following optimizatio
    Ensure that the columns used for sorting and searching (e.g., `due_date`, `created_date`, `name`) are **indexed**. This will significantly improve query performance, especially for large datasets.
 
 
+<br>
 
 ## Personal Notes
 
