@@ -39,3 +39,40 @@
   width: 20%;
   margin: 50px auto;
 }
+
+.sorting-controls {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.sorting-controls label {
+  margin-right: 10px;
+}
+
+.sorting-controls select {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.search-controls {
+  margin: 20px 0;
+  display: inline-flex;
+  gap: 10px;
+}
+
+.search-controls input {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  flex-grow: 1; /* Makes the input take more space */
+}
+
+.empty-message {
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}

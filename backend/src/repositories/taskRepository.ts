@@ -18,22 +18,27 @@ export class TaskRepository {
     const { page, limit, sortBy, sortOrder, search } = fetchOptions;
     const offset = (page - 1) * limit;
 
-    let query = `SELECT * FROM tasks`;
-    const queryParams: any[] = [];
+    let tasksQuery = "SELECT * FROM tasks";
+    let countQuery = "SELECT COUNT(*) FROM tasks";
+    const tasksParams: any[] = [];
+    const countParams: any[] = [];
 
     // only filter the results with name when the search term is provided
     if (search.trim()) {
-      query += ` WHERE name ILIKE $1`;
-      queryParams.push(`%${search}%`);
+      const searchNameClause = ` WHERE name ILIKE $1`;
+      tasksQuery += searchNameClause;
+      countQuery += searchNameClause;
+      tasksParams.push(`%${search}%`);
+      countParams.push(`%${search}%`);
     }
 
-    query += ` ORDER BY ${sortBy} ${sortOrder}`;
-    query += ` LIMIT $${queryParams.length + 1} OFFSET $${queryParams.length + 2}`;
-    queryParams.push(limit, offset);
+    tasksQuery += ` ORDER BY ${sortBy} ${sortOrder}`;
+    tasksQuery += ` LIMIT $${tasksParams.length + 1} OFFSET $${tasksParams.length + 2}`;
+    tasksParams.push(limit, offset);
 
     const [tasksResult, countResult] = await Promise.all([
-      this.pg.query(query, queryParams),
-      this.pg.query("SELECT COUNT(*) FROM tasks"),
+      this.pg.query(tasksQuery, tasksParams),
+      this.pg.query(countQuery, countParams),
     ]);
 
     const totalTasks = parseInt(countResult.rows[0].count, 10);
