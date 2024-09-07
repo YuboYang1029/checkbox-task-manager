@@ -8,7 +8,7 @@ import {
   TaskBase,
 } from "../types/tasks";
 
-export const MAX_TASKS_PER_PAGE = 100;
+export const MAX_TASKS_PER_PAGE = 5;
 
 export class TaskController {
   constructor(private readonly taskRepository: TaskRepository) {}

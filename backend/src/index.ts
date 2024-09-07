@@ -40,8 +40,8 @@ fastify.register(taskRoutes);
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 3000, host: "0.0.0.0" });
-    fastify.log.info(`Task Manager Server running at http://localhost:3000/`);
+    await fastify.listen({ port: 8080, host: "0.0.0.0" });
+    fastify.log.info(`Task Manager Server running at http://localhost:8080/`);
     await checkDbConnection();
   } catch (err) {
     fastify.log.error(err);

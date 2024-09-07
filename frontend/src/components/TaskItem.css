@@ -1,0 +1,47 @@
+.task-item {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.task-item div {
+  margin: 5px 0;
+}
+
+.task-description {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.status.not-urgent {
+  background-color: #28a745;
+  color: white;
+}
+
+.status.due-soon {
+  background-color: #ffc107;
+  color: black;
+}
+
+.status.overdue {
+  background-color: #dc3545;
+  color: white;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-decoration: none;
+}

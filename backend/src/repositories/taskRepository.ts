@@ -1,5 +1,5 @@
 import { PostgresDb } from "@fastify/postgres";
-import { getTaskStatus } from "../utils/statusUtils";
+import { getTaskStatus, mapTaskToCamelCase } from "../utils/taskUtils";
 import { FetchTasksOptions, Task } from "../types/tasks";
 
 export class TaskRepository {
@@ -11,7 +11,7 @@ export class TaskRepository {
       "INSERT INTO tasks (name, description, due_date, created_date, updated_date, status) VALUES ($1, $2, $3, NOW(), NOW(), $4) RETURNING *",
       [name, description, dueDate, status]
     );
-    return result.rows[0];
+    return mapTaskToCamelCase(result.rows[0]);
   }
 
   async getTasksWithPagination(fetchOptions: FetchTasksOptions) {
@@ -31,23 +31,36 @@ export class TaskRepository {
     query += ` LIMIT $${queryParams.length + 1} OFFSET $${queryParams.length + 2}`;
     queryParams.push(limit, offset);
 
-    const tasksResult = await this.pg.query(query, queryParams);
-    return tasksResult.rows;
+    const [tasksResult, countResult] = await Promise.all([
+      this.pg.query(query, queryParams),
+      this.pg.query("SELECT COUNT(*) FROM tasks"),
+    ]);
+
+    const totalTasks = parseInt(countResult.rows[0].count, 10);
+    const totalPages = Math.ceil(totalTasks / limit);
+
+    return {
+      tasks: tasksResult.rows.map(mapTaskToCamelCase),
+      meta: {
+        totalTasks,
+        totalPages,
+      },
+    };
   }
 
   async getTaskById(id: number) {
     const result = await this.pg.query("SELECT * FROM tasks WHERE id = $1", [
       id,
     ]);
-    return result.rows[0];
+    return mapTaskToCamelCase(result.rows[0]);
   }
 
   async updateTask(updatedFields: Partial<Task>) {
-    const { name, description, dueDate, id } = updatedFields;
+    const { name, description, dueDate, status, id } = updatedFields;
     const result = await this.pg.query(
-      "UPDATE tasks SET name = COALESCE($1, name), description = COALESCE($2, description), due_date = COALESCE($3, due_date) WHERE id = $4 RETURNING *",
-      [name, description, dueDate, id]
+      "UPDATE tasks SET name = COALESCE($1, name), description = COALESCE($2, description), due_date = COALESCE($3, due_date), status = COALESCE($4, status) WHERE id = $5 RETURNING *",
+      [name, description, dueDate, status, id]
     );
-    return result.rows[0];
+    return mapTaskToCamelCase(result.rows[0]);
   }
 }
