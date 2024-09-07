@@ -23,7 +23,7 @@ export class TaskRepository {
     const tasksParams: any[] = [];
     const countParams: any[] = [];
 
-    // only filter the results with name when the search term is provided
+    // only add the name search filter, when the valid search term is provided
     if (search.trim()) {
       const searchNameClause = ` WHERE name ILIKE $1`;
       tasksQuery += searchNameClause;
@@ -61,7 +61,10 @@ export class TaskRepository {
   }
 
   async updateTask(updatedFields: Partial<Task>) {
-    const { name, description, dueDate, status, id } = updatedFields;
+    const { name, description, dueDate, id } = updatedFields;
+    // Recalculate the status only when the due date has been updated
+    const status = dueDate ? getTaskStatus(dueDate) : null;
+
     const result = await this.pg.query(
       "UPDATE tasks SET name = COALESCE($1, name), description = COALESCE($2, description), due_date = COALESCE($3, due_date), status = COALESCE($4, status) WHERE id = $5 RETURNING *",
       [name, description, dueDate, status, id]

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
-import { getTaskStatus } from "../utils/taskUtils";
 import { Task } from "../types/tasks";
 import { backendUrl } from "../utils/envUtils";
 import "./TaskForm.css";
@@ -40,8 +39,6 @@ const TaskForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const updatedStatus = getTaskStatus(new Date(dueDate)); // Recalculate status based on new due date
-
     if (!name || !description || !dueDate) {
       alert("Please fill in all fields");
       return;
@@ -51,7 +48,6 @@ const TaskForm: React.FC = () => {
       name,
       description,
       dueDate,
-      status: updatedStatus,
     };
 
     const method = id ? "PATCH" : "POST";
