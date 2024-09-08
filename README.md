@@ -27,7 +27,7 @@ This project delivers a task management application based on the customer interv
    ```
 
 2. **Docker Setup**: Ensure Docker is installed on your machine.
-   - Run the following command to build the Docker images and start the **frontend**, **backend**, and **database** containers:
+   - In project root folder, run the following command to build the Docker images and start the **frontend**, **backend**, and **database** containers:
    ```bash
    npm run docker:build
    ```
@@ -49,7 +49,7 @@ This project delivers a task management application based on the customer interv
      - Password: `password`
 
    
-6. **Shut Down**: To stop and remove all running containers, use the following command:
+6. **Shut Down**: To stop and remove all running containers, run the following command under the root folder:
    ```bash
    npm run docker:down
    ```
