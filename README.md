@@ -150,6 +150,9 @@ To address the risk of handling 10s of 1000s of tasks, the following optimizatio
 5. **Optimize Database Queries**:  
    Ensure that the columns used for sorting and searching (e.g., `due_date`, `created_date`, `name`) are **indexed**. This will significantly improve query performance, especially for large datasets.
 
+6. **Upgrade to Vite**:  
+   The project currently uses **create-react-app** as my familiar scaffold tool, though it is gradually being replaced by Vite. Given more time, I would upgrade to **Vite**, which offers a more modern and robust setup with faster build times and better performance for larger projects.
+
 
 <br>
 
