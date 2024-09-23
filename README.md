@@ -1,4 +1,4 @@
-# Checkbox Task Manager
+# Small StartUp Task Manager
 
 This project delivers a task management application based on the customer interviews and user mapping flows. The task manager allows users to create, edit, view, sort and search tasks efficiently. The system is designed to scale efficiently, allowing it to handle a large number of tasks without compromising performance.
 
